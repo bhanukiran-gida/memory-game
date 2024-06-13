@@ -1,5 +1,8 @@
-import useGameStore from '../../store/useGameStore';
+"use client"
+
+import useGameStore from '../../app/store/useGameStore';
 import './style.css';
+import { useRouter } from 'next/navigation';
 
 interface SettingsProps {
   onStartGame: () => void;
@@ -12,9 +15,12 @@ const Settings: React.FC<SettingsProps> = ({ onStartGame }) => {
     setGridSize,
     resetGame,
     activeTheme,
+    startTheGame,
     activePlayers,
     activeGridSize,
   } = useGameStore();
+
+  const router = useRouter();
 
   const handleThemeChange = (theme: 'numbers' | 'icons') => {
     setTheme(theme);
@@ -31,6 +37,8 @@ const Settings: React.FC<SettingsProps> = ({ onStartGame }) => {
   const startGame = () => {
     resetGame();
     onStartGame();
+    startTheGame();
+    router.push('/game');
   };
 
   return (

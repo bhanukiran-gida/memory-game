@@ -2,85 +2,49 @@
 
 import React, { useEffect, useState } from 'react';
 import useGameStore from '../store/useGameStore';
+import GameBoard from '../../components/GameBoard/GameBoard';
+import { useRouter } from 'next/navigation';
+import './style.css';
 
-import './style.css'
-
-const GameBoard = () => {
-    const {
-        grid, currentPlayer, players, matchedCount, gridSize,
-        revealTile, hideTiles, incrementScore, nextPlayer, matchTiles, incrementMatchedCount
-    } = useGameStore();
-    const [selectedTiles, setSelectedTiles] = useState<number[]>([]);
-    console.log(grid);
+const GamePage = () => {
+    const { gameStarted, startTheGame } = useGameStore();
+    const [countdown, setCountdown] = useState(3);
+    const [showCountdown, setShowCountdown] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
-        if (selectedTiles.length === 2) {
-            const [first, second] = selectedTiles;
-            if (grid[first].value === grid[second].value) {
-                matchTiles([first, second]);
-                incrementScore();
-                incrementMatchedCount();
-            } else {
-                setTimeout(() => {
-                    hideTiles();
-                }, 1000);
+        let timer = 3;
+        const countdownInterval = setInterval(() => {
+            setCountdown(timer);
+            timer -= 1;
+            if (timer < 0) {
+                clearInterval(countdownInterval);
+                startTheGame();
+                setTimeout(() => setShowCountdown(false), 1000);
             }
-            setTimeout(() => {
-                nextPlayer();
-                setSelectedTiles([]);
-            }, 1000);
-        }
-    }, [selectedTiles]);
+        }, 500);
+    }, []);
 
-    const handleTileClick = (index: number) => {
-        if (selectedTiles.length < 2 && !grid[index].revealed) {
-            revealTile(index);
-            setSelectedTiles([...selectedTiles, index]);
+    useEffect(() => {
+        if (!gameStarted) {
+            router.push('/settings');
         }
-    };
-
-    if (matchedCount === grid.length / 2) {
-        alert(`Game Over! Player ${players[currentPlayer].id} wins!`);
-    }
+    }, [gameStarted]);
 
     return (
-        <div className="game_board">
-            <header className='game_board_header'>
-                <div className="game_board_header_left">
-                    <h3>memory</h3>
+        <div className="main_body">
+            {showCountdown ? (
+                <div className="countdown_circle">
+                    <div className='countdown_circle_value'>
+                        {countdown > 0 ? countdown : 'GO'}
+                    </div>
+                    
                 </div>
-                <div className="game_board_header_right">
-                    <button className="game_board_header_left_restart">Restart</button>
-                    <button className="game_board_header_left_new">New Game</button>
-
-                </div>  
-
-            </header>
-            <div className="game_board_body">
-                <div className='game_board_tiles'>
-                    {grid.map((tile, index) => (
-                        <div key={index} className="tile" onClick={() => handleTileClick(index)}>
-                            {tile.revealed ? tile.value : ''}
-                        </div>
-                    ))}
-                </div>
-            </div>
-                
-                <div className="scoreboard">
-                    {players.map(player => (
-                        <div key={player.id}>
-                            <div className='scoreboard_player'>
-                                Player {player.id}
-                            </div>
-                            <div className='scoreboard_score'>
-                                {player.score}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            
+            ) : (
+                <GameBoard />
+            )}
         </div>
     );
 };
 
-export default GameBoard;
+export default GamePage;

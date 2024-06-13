@@ -50,6 +50,10 @@
   color: var(--white);
 }
 
+.game_board_header_left_restart:hover {
+  letter-spacing: 0.1rem;
+}
+
 .game_board_header_left_new {
   background-color: var(--unchecked);
   flex: 1;
@@ -65,11 +69,23 @@
   transition: 0.3s ease-in-out;
 }
 
+.game_board_header_left_new:hover {
+  letter-spacing: 0.1rem;
+}
+
 .game_board_tiles {
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 6rem);
   display: grid;
   gap: 0.6rem;
+}
+
+.game_board_tiles_4 {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 6rem);
+}
+
+.game_board_tiles_6 {
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 6rem);
 }
 
 .tile {
@@ -97,8 +113,6 @@
   transform: rotateY(180deg);
   background-color: var(--yellow);
   color: var(--white);
-
-
 }
 
 .tile-inner {
@@ -140,6 +154,7 @@
   justify-content: space-between;
   padding: 1rem;
   border-radius: 0.5rem;
+  position: relative; /* Ensure the pseudo-element is positioned relative to this div */
 }
 
 .scoreboard_score {
@@ -149,4 +164,18 @@
 .scoreboard_player.current {
   background-color: var(--yellow);
   color: var(--white);
+  position: relative;
+}
+
+.scoreboard_player.current::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid var(--yellow);
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
 }

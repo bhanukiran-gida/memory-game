@@ -36,3 +36,56 @@ body {
     text-wrap: balance;
   }
 }
+
+/* style.css */
+
+/* Common styles for the main body */
+.main_body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  /* padding: 1rem; */
+}
+
+/* Styles for the home card */
+.home_card {
+  width: 85vw;
+  max-width: 30rem;
+  min-height: 60vh;
+  border-radius: 1rem;
+  background-color: var(--dark-bg);
+  padding: 3rem 2rem;
+  box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, .011), 0 6.7px 5.3px rgba(0, 0, 0, .016), 0 12.5px 10px rgba(0, 0, 0, .02), 0 22.3px 17.9px rgba(0, 0, 0, .024), 0 41.8px 33.4px rgba(0, 0, 0, .029), 0 100px 80px rgba(0, 0, 0, .04);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Styles for the home title */
+.home_title {
+  color: var(--white);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+}
+
+/* Styles for the start button */
+.home_start_button {
+  background-color: var(--yellow);
+  color: var(--white);
+  width: 100%;
+  max-width: 20rem;
+  height: 3rem;
+  border-radius: 100vmax;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-transform: capitalize;
+  transition: .3s ease-in-out;
+  border: none;
+  outline: none;
+}

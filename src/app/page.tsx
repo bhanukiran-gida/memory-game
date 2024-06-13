@@ -1,47 +1,28 @@
+// pages/index.tsx
 "use client"
 
-import React, { useEffect, useState } from 'react';
-import Settings from './components/Settings/Settings';
-import GameBoard from './components/GameBoard/GameBoard';
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import useGameStore from './store/useGameStore';
+import './globals.css';
 
-const HomeComponent = () => {
-    const { gridSize, theme, gameStarted, createGrid, startGame } = useGameStore();
-    const [countdown, setCountdown] = useState(3);
-
-    useEffect(() => {
-        createGrid();
-    }, [gridSize, theme]);
+const HomePage = () => {
+    const router = useRouter();
+    const { resetGame } = useGameStore();
 
     const handleStartGame = () => {
-        let timer = 3;
-        const countdownInterval = setInterval(() => {
-            setCountdown(timer);
-            timer -= 1;
-            if (timer < 0) {
-                clearInterval(countdownInterval);
-                startGame();
-            }
-        }, 1000);
+        resetGame();
+        router.push('/settings');
     };
 
     return (
         <div className="main_body">
-            {!gameStarted && countdown === 3 ? (
-                <Settings onStartGame={handleStartGame} />
-            ) : (
-                <>
-                    {countdown > 0 ? (
-                        <div className="countdown">{countdown}</div>
-                    ) : (
-                        <GameBoard />
-                    )}
-                </>
-            )}
+            <div className="home_card">
+                <h1 className="home_title">Welcome to the Memory Game</h1>
+                <button onClick={handleStartGame} className="home_start_button">Start Game</button>
+            </div>
         </div>
     );
 };
 
-const Home = () => <HomeComponent />;
-
-export default Home;
+export default HomePage;

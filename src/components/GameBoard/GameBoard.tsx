@@ -1,16 +1,18 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import useGameStore from "../../store/useGameStore";
+import useGameStore from "../../app/store/useGameStore";
+import { useRouter } from "next/navigation";
 import "./style.css";
 
 const GameBoard = () => {
     const {
         grid, currentPlayer, players, matchedCount, gridSize,
-        revealTile, hideTiles, incrementScore, nextPlayer, matchTiles, incrementMatchedCount
+        revealTile, hideTiles, incrementScore, nextPlayer, matchTiles, incrementMatchedCount, resetGame, createGrid, setPlayers
     } = useGameStore();
     const [selectedTiles, setSelectedTiles] = useState<number[]>([]);
-    console.log(players);
+    const [gameOver, setGameOver] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         if (selectedTiles.length === 2) {
@@ -31,6 +33,13 @@ const GameBoard = () => {
         }
     }, [selectedTiles]);
 
+    useEffect(() => {
+        if (matchedCount === grid.length / 2 && !gameOver) {
+            alert(`Game Over! Player ${players[currentPlayer].id} wins!`);
+            setGameOver(true);
+        }
+    }, [matchedCount, gameOver, players, currentPlayer, grid.length]);
+
     const handleTileClick = (index: number) => {
         if (selectedTiles.length < 2 && !grid[index].revealed) {
             revealTile(index);
@@ -38,9 +47,21 @@ const GameBoard = () => {
         }
     };
 
-    if (matchedCount === grid.length / 2) {
-        alert(`Game Over! Player ${players[currentPlayer].id} wins!`);
-    }
+    const handleRestart = () => {
+        if (window.confirm("Are you sure you want to restart the game?")) {
+            resetGame();
+            createGrid();
+            setPlayers(players.length);
+            setGameOver(false);
+        }
+        router.push('/game');
+    };
+
+    const handleNewGame = () => {
+        resetGame();
+        createGrid();
+        router.push('/settings');
+    };
 
     return (
         <div className="game_board">
@@ -49,12 +70,12 @@ const GameBoard = () => {
                     <h3>memory</h3>
                 </div>
                 <div className="game_board_header_right">
-                    <button className="game_board_header_left_restart">Restart</button>
-                    <button className="game_board_header_left_new">New Game</button>
+                    <button onClick={handleRestart} className="game_board_header_left_restart">Restart</button>
+                    <button onClick={handleNewGame} className="game_board_header_left_new">New Game</button>
                 </div>
             </header>
             <div className="game_board_body">
-                <div className="game_board_tiles">
+                <div className={`game_board_tiles game_board_tiles_${gridSize}`}>
                     {grid.map((tile, index) => (
                         <div
                             key={index}
