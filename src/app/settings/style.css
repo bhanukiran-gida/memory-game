@@ -1,0 +1,82 @@
+.settings {
+    background-color: #162938;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    align-items: center;
+}
+
+
+.settings_card {
+   width: 85vw;
+   max-width: 30rem;
+   min-height: 60vh;
+   border-radius: 1rem;
+   background-color: var(--white);
+   padding: 3rem 2rem;
+   box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, .011), 0 6.7px 5.3px rgba(0, 0, 0, .016), 0 12.5px 10px rgba(0, 0, 0, .02), 0 22.3px 17.9px rgba(0, 0, 0, .024), 0 41.8px 33.4px rgba(0, 0, 0, .029), 0 100px 80px rgba(0, 0, 0, .04);
+
+}
+
+.settings_card_themes, .settings_card_players, .settings_card_size, .settings_card_start {
+   /* color: var(--text-color); */
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   margin-bottom: 2rem;
+}
+
+.settings_card_themes_buttons, .settings_card_players_nums, .settings_card_sizes {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   width: 100%;
+   gap: 1rem;
+   margin-top: 0.3rem
+}
+
+.settings_card_themes_buttons > button {
+   padding: 0.3rem;
+
+}
+
+.settings_card_themes_buttons > button, .settings_card_players_nums > button,
+.settings_card_sizes > button
+{
+   background-color: var(--unchecked);
+   padding: 0.3rem;
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 100vmax;
+   color: var(--white);
+   font-weight: 600;
+   font-size: 1.1rem;
+
+}
+
+.settings_card_players > h3, .settings_card_themes > h3, .settings_card_size > h3, .settings_card_start > h3 {
+   color: var(--text-color);
+   font-weight: 500;
+   text-transform: capitalize;
+   font-size: 1.1rem;
+
+}
+
+.settings_theme_numbers {
+   width: 100%;
+   outline: none;
+   border: none;
+   height: 3rem;
+   border-radius: 100vmax;
+   font-weight: 600;
+   font-size: 1.1rem;
+   cursor: pointer;
+   text-transform: capitalize;
+   transition: .3s ease-in-out;
+   background-color: var(--yellow);
+
+}
